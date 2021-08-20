@@ -1,9 +1,11 @@
 <?php
-
 /* GET OUR WEATHER DATA */
 
+  // Get our environment variables
+  include('.env.php');
+
   // Get our JSON
-  $strJsonFileContents = file_get_contents("https://api.darksky.net/forecast/7b5851f6d0a0b4ee4fdef257deb1ff39/35.8020,-86.9114?exclude=[minutely,hourly,daily,alerts,flags]");
+  $strJsonFileContents = file_get_contents("https://api.darksky.net/forecast/" . $_ENV['API_KEY'] . "/35.8020,-86.9114?exclude=[minutely,hourly,daily,alerts,flags]");
   $weather = json_decode($strJsonFileContents, true);
   
   // Convert temperature and dew point
@@ -27,7 +29,7 @@
 
   // Add overlay box
   $offline = imagecreatefromjpeg(__DIR__.'/camera-offline.jpg');
-  $camera = imagecreatefromjpeg('https://nexusapi-us1.camera.home.nest.com/get_image?uuid=e07868640e544a9d9d2cca77ea21894e&width=1920&public=tZXreYM9vZ');
+  $camera = imagecreatefromjpeg('https://nexusapi-us1.camera.home.nest.com/get_image?uuid=' . $_ENV['NEST_CAMERA']);
   $overlay = imagecreatefrompng(__DIR__.'/time-overlay.png');
   imagecopy($canvas, $offline, 0, 0, 0, 0, 1920, 1080);
   imagecopy($canvas, $camera, 0, 0, 0, 0, 1920, 1080);
