@@ -16,11 +16,11 @@
   $wind = $windSpeed.' '.$windDirectionName;
 
   // Display data
-  echo "<h1>Temperature</h1>: " . $temp . "<br />";
-  echo "<h1>Dewpoint</h1>: " . $dew . "<br />";
-  echo "<h1>Wind Number</h1>: " . $windNumber . "<br />";
-  echo "<h1>Wind Speed</h1>: " . $windSpeed . "<br />";
-  echo "<h1>Wind Direction</h1>: " . $windDirection . "<br />";
-  echo "<h1>Wind Direction Name</h1>: " . $windDirectionName . "<br />";
-  echo "<h1>Wind</h1>: " . $wind . "<br />";
+  echo "<strong>Temperature</strong>: " . $temp . "<br />";
+  echo "<strong>Dewpoint</strong>: " . $dew . "<br />";
+  echo "<strong>Wind Number</strong>: " . $windNumber . "<br />";
+  echo "<strong>Wind Speed</strong>: " . $windSpeed . "<br />";
+  echo "<strong>Wind Direction</strong>: " . $windDirection . "<br />";
+  echo "<strong>Wind Direction Name</strong>: " . $windDirectionName . "<br />";
+  echo "<strong>Wind</strong>: " . $wind . "<br />";
 ?>
