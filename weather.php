@@ -26,10 +26,4 @@
   echo "<strong>Wind Direction</strong>: " . $windDirection . "<br />";
   echo "<strong>Wind Direction Name</strong>: " . $windDirectionName . "<br />";
   echo "<strong>Wind</strong>: " . $wind . "<br />";
-
-  // Testing ENV
-  $test = getenv('API_KEY');
-  $_ENV['VARIABLE_NAME'] = 'super sentitive key';
-  echo "This is the secret: " . $strJsonFileContents;
-  echo $weather;
 ?>
