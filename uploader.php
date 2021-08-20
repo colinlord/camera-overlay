@@ -1,4 +1,7 @@
 <?php
+  // Get our environment variables
+  include('.env.php');
+
   // Wait for image to download
   // sleep(10);
 
@@ -6,8 +9,8 @@
   $file = __DIR__.'/images/roof.jpg';
   $remote_file = 'image.jpg';
   $ftp_server = 'webcam.wunderground.com';
-  $ftp_user_name = 'colinlordCAM4';
-  $ftp_user_pass = 'FqzCHMh8';
+  $ftp_user_name = $_ENV['FTP_USER_NAME'];
+  $ftp_user_pass = $_ENV['FTP_USER_PASS'];
 
   // set up connection
   $conn_id = ftp_connect($ftp_server);

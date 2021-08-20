@@ -1,6 +1,9 @@
 <?php
+  // Get our environment variables
+  include('.env.php');
+
   // Get our JSON
-  $strJsonFileContents = file_get_contents("https://api.darksky.net/forecast/7b5851f6d0a0b4ee4fdef257deb1ff39/35.8020,-86.9114?exclude=[minutely,hourly,daily,alerts,flags]");
+  $strJsonFileContents = file_get_contents("https://api.darksky.net/forecast/" . $_ENV['API_KEY'] . "/35.8020,-86.9114?exclude=[minutely,hourly,daily,alerts,flags]");
   $weather = json_decode($strJsonFileContents, true);
 
   // Convert temperature and dew point
@@ -23,4 +26,10 @@
   echo "<strong>Wind Direction</strong>: " . $windDirection . "<br />";
   echo "<strong>Wind Direction Name</strong>: " . $windDirectionName . "<br />";
   echo "<strong>Wind</strong>: " . $wind . "<br />";
+
+  // Testing ENV
+  $test = getenv('API_KEY');
+  $_ENV['VARIABLE_NAME'] = 'super sentitive key';
+  echo "This is the secret: " . $strJsonFileContents;
+  echo $weather;
 ?>
