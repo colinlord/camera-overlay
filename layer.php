@@ -46,7 +46,7 @@
   imagettftext($canvas, 36, 0, 1680, 62, $white, $font, $time);
   imagettftext($canvas, 36, 0, 390, 62, $white, $font, $temp);
   imagettftext($canvas, 36, 0, 780, 62, $white, $font, $dew);
-  
+
   if ($windNumber > 0) {
     imagettftext($canvas, 36, 0, 1050, 62, $white, $font, $wind);
   } else {
@@ -54,7 +54,7 @@
   }
 
   // Save the image and free memory
-  imagejpeg($canvas, __DIR__.'/images/roof.jpg', 100);
+  imagejpeg($canvas, __DIR__.'./camera.jpg', 100);
   imagedestroy($canvas);
-  
+
 ?>
