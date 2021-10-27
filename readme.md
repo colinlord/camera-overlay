@@ -48,5 +48,7 @@ The PSD I used to create the overlay is in the repo. (Most people probably won't
 ## Troubleshooting
 I created a `weather.php` file that directly pings the Dark Sky API to verify that weather data is being pulled correctly independent of the overlay process.
 
+If the time on the image is incorrect, `time.php` can be used to troubleshoot the time on your server.
+
 ## Future Improvements I Need To Make
 - Dark Sky is retiring their API at the end of 2022. I will need to pull from a different source before then.
