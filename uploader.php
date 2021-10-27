@@ -8,7 +8,7 @@
   // variables for our FTP transfer
   $file = __DIR__.'/images/roof.jpg';
   $remote_file = 'image.jpg';
-  $ftp_server = 'webcam.wunderground.com';
+  $ftp_server = 'ftp.server.com';
   $ftp_user_name = $_ENV['FTP_USER_NAME'];
   $ftp_user_pass = $_ENV['FTP_USER_PASS'];
 

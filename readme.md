@@ -1,12 +1,12 @@
 
 # Camera Overlay
-This repo can be used to create automated time-lapses with a weather data overlay on third-party sites like Weather Underground or Windy.
+This repo can be used to create automated time-lapses with a weather data overlay on third-party sites like Windy.
 
-While I am using it with a Nest camera, it can be used with any public image source. 
+While I am using it with a Nest camera, it can be used with any public image source.
 
 Here is an example of the latest output from my camera:
 
-![Camera Example](https://pi.lordcol.in/roof-camera/images/roof.jpg)
+![Camera Example](https://lordcol.in/roof-camera/images/roof.jpg)
 
 
 ## Background
@@ -22,7 +22,7 @@ These are standalone PHP files that don't require anything like Composer. It's b
 
 
 ## Installation
-You should be able to drop this repo into any server with PHP to get things up and running quickly. Your camera URL and API keys will go into `.env.php`, which will need to be created in the root folder. If you are planning to upload camera images via FTP, these will need to go into this file as well.
+You should be able to drop this repo into any server with PHP to get things up and running quickly. Your camera URL and API keys will go into `.env.php`, which will need to be created in the root folder. If you are planning to upload camera images via FTP with `uploader.php`, these will need to go into this file as well.
 
 ```php
   $_ENV['FTP_USER_NAME'] = '';
@@ -32,13 +32,21 @@ You should be able to drop this repo into any server with PHP to get things up a
 ```
 While not a traditional .env file, I'm using this because I wanted to keep dependencies to a minimum.
 
-Once you have your camera and weather data set up, you should be able to run `layer.php` to create an image and `uploader.php` to send that file off to a site like Weather Underground via FTP.
+## Usage
+Once you have your camera and weather data credentials set up, you can run `layer.php` to create an image. If you are using a site like Windy to share your camera, running `layer.php` is all you need to do. You just have to copy/paste the location of the URL for the image being generated.
 
-You'll then want to set a CronJob to run on your server to refresh the image. Dark Sky's API allows for 1000 calls per day which means you can run `layer.php` every two minutes.
+Until October 2021, Weather Underground offered a webcam service. It has since been shut down. Before then, I used `uploader.php` to send the latest image to their server via FTP. While their service has been discontinued, `uploader.php` will allow you to send your camera image to any FTP service.
+
+## CronJob
+Unless you only want to refresh your camera and weather data manually for some reason, you will probably want to set up a CronJob to automate these updates.
+
+Dark Sky's API allows for 1000 calls per day which means you can run `layer.php` every two minutes.
 
 ## Customizing The Overlay
-The PSD I used to create the overlay is in the repo. Most people probably won't want my site and Twitter handle in their overlays.
+The PSD I used to create the overlay is in the repo. (Most people probably won't want my site and Twitter handle in their overlays!)
+
+## Troubleshooting
+I created a `weather.php` file that directly pings the Dark Sky API to verify that weather data is being pulled correctly independent of the overlay process.
 
 ## Future Improvements I Need To Make
-
 - Dark Sky is retiring their API at the end of 2022. I will need to pull from a different source before then.
