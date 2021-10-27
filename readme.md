@@ -50,5 +50,8 @@ I created a `weather.php` file that directly pings the Dark Sky API to verify th
 
 If the time on the image is incorrect, `time.php` can be used to troubleshoot the time on your server.
 
-## Future Improvements I Need To Make
+## Future Improvements I Need/Want To Make
 - Dark Sky is retiring their API at the end of 2022. I will need to pull from a different source before then.
+- Add another overlay for when the camera is under a watch or warning.
+- Will this work with the newest generation of Nest cameras now that Google seems to be migrating away from the original Nest platform?
+- Rather than overwriting the image with each cron job and letting a third party service create an archive, what's the best way to do that here?
