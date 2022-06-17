@@ -54,7 +54,7 @@
   }
 
   // Save the image and free memory
-  imagejpeg($canvas, __DIR__.'./camera.jpg', 100);
+  imagejpeg($canvas, __DIR__.'/camera.jpg', 100);
   imagedestroy($canvas);
 
 ?>
