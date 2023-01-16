@@ -6,7 +6,7 @@ While I am using it with a Nest camera, it can be used with any public image sou
 
 Here is an example of the latest output from my camera:
 
-![Camera Example](https://lordcol.in/roof-camera/images/roof.jpg)
+![Camera Example](https://lordcol.in/roof-camera/camera.jpg)
 
 
 ## Background
