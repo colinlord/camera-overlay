@@ -6,20 +6,19 @@
 
   // Get our JSON
   // Documentation: https://ibm.co/v2PWSCC
-  $strJsonFileContents = file_get_contents("https://api.weather.com/v2/pws/observations/current?stationId=" . $_ENV['STATION_ID'] . "&format=json&units=e&apiKey=" . $_ENV['API_KEY']);
-
-  $weather = json_decode($strJsonFileContents, true);
+  $data = file_get_contents("https://api.weather.com/v2/pws/observations/current?stationId=" . $_ENV['STATION_ID'] . "&format=json&units=e&apiKey=" . $_ENV['API_KEY']);
+  $weather = json_decode($data, true);
 
   // Convert temperature and dew point
-  $temp = $weather['observations']['imperial']['temp'] . '°';
-  $dew = $weather['observations']['imperial']['dewpt'] . '°';
+  $temp = $weather['observations'][0]['imperial']['temp'] . '°';
+  $dew = $weather['observations'][0]['imperial']['dewpt'] . '°';
 
   // Convert wind speed
-  $windNumber = $weather['observations']['imperial']['windSpeed'];
+  $windNumber = $weather['observations'][0]['imperial']['windSpeed'];
+  $windDirection = $weather['observations'][0]['winddir'];
 
-  if ($windNumber > 0) {
+  if ($windDirection) {
     $windSpeed = $windNumber . ' mph';
-    $windDirection = $weather['observations']['imperial']['winddir'];
     $compass = array('N', 'NNE', 'NE', 'ENE', 'E', 'ESE', 'SE', 'SSE', 'S', 'SSW', 'SW', 'WSW', 'W', 'WNW', 'NW', 'NNW');
     $windDirectionName = $compass[round( ($windDirection % 360 - 11.25) / 22.5)];
     $wind = $windSpeed.' '.$windDirectionName;
@@ -53,12 +52,7 @@
   imagettftext($canvas, 36, 0, 1680, 62, $white, $font, $time);
   imagettftext($canvas, 36, 0, 390, 62, $white, $font, $temp);
   imagettftext($canvas, 36, 0, 780, 62, $white, $font, $dew);
-
-  if ($windNumber > 0) {
-    imagettftext($canvas, 36, 0, 1050, 62, $white, $font, $wind);
-  } else {
-    imagettftext($canvas, 36, 0, 1050, 62, $white, $font, '0 mph');
-  }
+  imagettftext($canvas, 36, 0, 1050, 62, $white, $font, $wind);
 
   // Save the image and free memory
   imagejpeg($canvas, __DIR__.'/camera.jpg', 100);
