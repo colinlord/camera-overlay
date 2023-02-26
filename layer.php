@@ -35,7 +35,7 @@
 
   // Add overlay box
   $offline = imagecreatefromjpeg(__DIR__.'/camera-offline.jpg');
-  $camera = imagecreatefromjpeg('https://nexusapi-us1.camera.home.nest.com/get_image?uuid=' . $_ENV['NEST_CAMERA']);
+  $camera = imagecreatefromjpeg($_ENV['CAMERA']);
   $overlay = imagecreatefrompng(__DIR__.'/time-overlay.png');
   imagecopy($canvas, $offline, 0, 0, 0, 0, 1920, 1080);
   imagecopy($canvas, $camera, 0, 0, 0, 0, 1920, 1080);
