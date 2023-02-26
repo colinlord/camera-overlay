@@ -8,28 +8,32 @@
   // Documentation: https://ibm.co/v2PWSCC
   $data = file_get_contents("https://api.weather.com/v2/pws/observations/current?stationId=" . $_ENV['STATION_ID'] . "&format=json&units=e&apiKey=" . $_ENV['API_KEY']);
   $weather = json_decode($data, true);
-  
+
   if(is_string($weather['observations'][0]['stationID'])) {
-    print "We have weather";
+    // Successfully obtained our weather station data
+
+    // Convert temperature and dew point
+    $temp = $weather['observations'][0]['imperial']['temp'] . '°';
+    $dew = $weather['observations'][0]['imperial']['dewpt'] . '°';
+
+    // Convert wind speed
+    $windNumber = $weather['observations'][0]['imperial']['windSpeed'];
+    $windDirection = $weather['observations'][0]['winddir'];
+
+    if ($windDirection) {
+      $windSpeed = $windNumber . ' mph';
+      $compass = array('N', 'NNE', 'NE', 'ENE', 'E', 'ESE', 'SE', 'SSE', 'S', 'SSW', 'SW', 'WSW', 'W', 'WNW', 'NW', 'NNW');
+      $windDirectionName = $compass[round( ($windDirection % 360 - 11.25) / 22.5)];
+      $wind = $windSpeed.' '.$windDirectionName;
+    } else {
+      $wind = 'Calm';
+    }
   } else {
-    print "We don't have weather";
-  }
+    // We weren't able to obtain our weather data so report nothing
 
-  // Convert temperature and dew point
-  $temp = $weather['observations'][0]['imperial']['temp'] . '°';
-  $dew = $weather['observations'][0]['imperial']['dewpt'] . '°';
-
-  // Convert wind speed
-  $windNumber = $weather['observations'][0]['imperial']['windSpeed'];
-  $windDirection = $weather['observations'][0]['winddir'];
-
-  if ($windDirection) {
-    $windSpeed = $windNumber . ' mph';
-    $compass = array('N', 'NNE', 'NE', 'ENE', 'E', 'ESE', 'SE', 'SSE', 'S', 'SSW', 'SW', 'WSW', 'W', 'WNW', 'NW', 'NNW');
-    $windDirectionName = $compass[round( ($windDirection % 360 - 11.25) / 22.5)];
-    $wind = $windSpeed.' '.$windDirectionName;
-  } else {
-    $wind = 'Calm';
+    $temp = '';
+    $dew = '';
+    $wind = '';
   }
 
 
