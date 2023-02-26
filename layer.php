@@ -5,34 +5,39 @@
   include('.env.php');
 
   // Get our JSON
-  $strJsonFileContents = file_get_contents("https://api.darksky.net/forecast/" . $_ENV['API_KEY'] . "/35.8020,-86.9114?exclude=[minutely,hourly,daily,alerts,flags]");
-  $weather = json_decode($strJsonFileContents, true);
-  
-  // Convert temperature and dew point
-  $temp = round($weather['currently']['temperature']) . '°';
-  $dew = round($weather['currently']['dewPoint']) . '°';
-  
-  // Convert wind speed
-  $windNumber = round($weather['currently']['windSpeed']);
-  $windSpeed = $windNumber . ' mph';
-  $windDirection = $weather['currently']['windBearing'];
-  $compass = array('N', 'NNE', 'NE', 'ENE', 'E', 'ESE', 'SE', 'SSE', 'S', 'SSW', 'SW', 'WSW', 'W', 'WNW', 'NW', 'NNW');
-  $windDirectionName = $compass[round( ($windDirection % 360 - 11.25) / 22.5)];
-  $wind = $windSpeed.' '.$windDirectionName;
+  // Documentation: https://ibm.co/v2PWSCC
+  $data = file_get_contents("https://api.weather.com/v2/pws/observations/current?stationId=" . $_ENV['STATION_ID'] . "&format=json&units=e&apiKey=" . $_ENV['API_KEY']);
+  $weather = json_decode($data, true);
+
+  if(is_string($weather['observations'][0]['stationID'])) {
+    // Successfully obtained our weather station data
+
+    // Convert temperature and dew point
+    $temp = $weather['observations'][0]['imperial']['temp'] . '°';
+    $dew = $weather['observations'][0]['imperial']['dewpt'] . '°';
+
+    // Convert wind speed
+    $windNumber = $weather['observations'][0]['imperial']['windSpeed'];
+    $windDirection = $weather['observations'][0]['winddir'];
+
+    if ($windDirection) {
+      $windSpeed = $windNumber . ' mph';
+      $compass = array('N', 'NNE', 'NE', 'ENE', 'E', 'ESE', 'SE', 'SSE', 'S', 'SSW', 'SW', 'WSW', 'W', 'WNW', 'NW', 'NNW');
+      $windDirectionName = $compass[round( ($windDirection % 360 - 11.25) / 22.5)];
+      $wind = $windSpeed.' '.$windDirectionName;
+    } else {
+      $wind = 'Calm';
+    }
+  } else {
+    // We weren't able to obtain our weather data so report nothing
+
+    $temp = '';
+    $dew = '';
+    $wind = '';
+  }
 
 
 /* CREATE OUR NEW IMAGE */
-
-$url = 'https://nexusapi-us1.camera.home.nest.com/get_image?uuid=e07868640e544a9d9d2cca77ea21894e&width=1920&public=N0JJgNz2Ce';
-$file_name = basename($url);
-if (file_put_contents($file_name, file_get_contents($url)))
-{
-    echo "File downloaded successfully";
-}
-else
-{
-    echo "File downloading failed.";
-}
 
   // Make the canvas
   header('Content-Type: image/jpg');
@@ -40,7 +45,7 @@ else
 
   // Add overlay box
   $offline = imagecreatefromjpeg(__DIR__.'/camera-offline.jpg');
-  $camera = imagecreatefromjpeg('https://nexusapi-us1.camera.home.nest.com/get_image?uuid=' . $_ENV['NEST_CAMERA']);
+  $camera = imagecreatefromjpeg($_ENV['CAMERA']);
   $overlay = imagecreatefrompng(__DIR__.'/time-overlay.png');
   imagecopy($canvas, $offline, 0, 0, 0, 0, 1920, 1080);
   imagecopy($canvas, $camera, 0, 0, 0, 0, 1920, 1080);
@@ -57,15 +62,9 @@ else
   imagettftext($canvas, 36, 0, 1680, 62, $white, $font, $time);
   imagettftext($canvas, 36, 0, 390, 62, $white, $font, $temp);
   imagettftext($canvas, 36, 0, 780, 62, $white, $font, $dew);
-
-  if ($windNumber > 0) {
-    imagettftext($canvas, 36, 0, 1050, 62, $white, $font, $wind);
-  } else {
-    imagettftext($canvas, 36, 0, 1050, 62, $white, $font, '0 mph');
-  }
+  imagettftext($canvas, 36, 0, 1050, 62, $white, $font, $wind);
 
   // Save the image and free memory
   imagejpeg($canvas, __DIR__.'/camera.jpg', 100);
   imagedestroy($canvas);
-
 ?>
