@@ -1,0 +1,27 @@
+{
+  "observations": [
+    {
+      "solarRadiation": 0.0,
+      "lon": -86.888,
+      "realtimeFrequency": null,
+      "epoch": 1677370903,
+      "lat": 35.778,
+      "uv": 0.0,
+      "winddir": 79,
+      "humidity": 93,
+      "qcStatus": 1,
+      "imperial": {
+        "temp": 46,
+        "heatIndex": 46,
+        "dewpt": 44,
+        "windChill": 46,
+        "windSpeed": 1,
+        "windGust": null,
+        "pressure": 30.2,
+        "precipRate": 0.0,
+        "precipTotal": 0.18,
+        "elev": 787
+      }
+    }
+  ]
+}

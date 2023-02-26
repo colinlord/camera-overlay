@@ -5,20 +5,27 @@
   include('.env.php');
 
   // Get our JSON
-  $strJsonFileContents = file_get_contents("https://api.darksky.net/forecast/" . $_ENV['API_KEY'] . "/35.8020,-86.9114?exclude=[minutely,hourly,daily,alerts,flags]");
+  // Documentation: https://ibm.co/v2PWSCC
+  $strJsonFileContents = file_get_contents("https://api.weather.com/v2/pws/observations/current?stationId=" . $_ENV['STATION_ID'] . "&format=json&units=e&apiKey=" . $_ENV['API_KEY']);
+
   $weather = json_decode($strJsonFileContents, true);
-  
+
   // Convert temperature and dew point
-  $temp = round($weather['currently']['temperature']) . '°';
-  $dew = round($weather['currently']['dewPoint']) . '°';
-  
+  $temp = $weather['observations']['imperial']['temp'] . '°';
+  $dew = $weather['observations']['imperial']['dewpt'] . '°';
+
   // Convert wind speed
-  $windNumber = round($weather['currently']['windSpeed']);
-  $windSpeed = $windNumber . ' mph';
-  $windDirection = $weather['currently']['windBearing'];
-  $compass = array('N', 'NNE', 'NE', 'ENE', 'E', 'ESE', 'SE', 'SSE', 'S', 'SSW', 'SW', 'WSW', 'W', 'WNW', 'NW', 'NNW');
-  $windDirectionName = $compass[round( ($windDirection % 360 - 11.25) / 22.5)];
-  $wind = $windSpeed.' '.$windDirectionName;
+  $windNumber = $weather['observations']['imperial']['windSpeed'];
+
+  if ($windNumber > 0) {
+    $windSpeed = $windNumber . ' mph';
+    $windDirection = $weather['observations']['imperial']['winddir'];
+    $compass = array('N', 'NNE', 'NE', 'ENE', 'E', 'ESE', 'SE', 'SSE', 'S', 'SSW', 'SW', 'WSW', 'W', 'WNW', 'NW', 'NNW');
+    $windDirectionName = $compass[round( ($windDirection % 360 - 11.25) / 22.5)];
+    $wind = $windSpeed.' '.$windDirectionName;
+  } else {
+    $wind = 'Calm';
+  }
 
 
 /* CREATE OUR NEW IMAGE */
@@ -56,5 +63,4 @@
   // Save the image and free memory
   imagejpeg($canvas, __DIR__.'/camera.jpg', 100);
   imagedestroy($canvas);
-
 ?>
