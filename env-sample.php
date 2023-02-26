@@ -5,4 +5,8 @@
 
   // Camera Source
   $_ENV['CAMERA'] = '';
+
+  // FTP
+  $_ENV['FTP_USER_NAME'] = '';
+  $_ENV['FTP_USER_PASS'] = '';
 ?>
