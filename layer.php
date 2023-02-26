@@ -23,6 +23,17 @@
 
 /* CREATE OUR NEW IMAGE */
 
+$url = 'https://nexusapi-us1.camera.home.nest.com/get_image?uuid=e07868640e544a9d9d2cca77ea21894e&width=1920&public=N0JJgNz2Ce';
+$file_name = basename($url);
+if (file_put_contents($file_name, file_get_contents($url)))
+{
+    echo "File downloaded successfully";
+}
+else
+{
+    echo "File downloading failed.";
+}
+
   // Make the canvas
   header('Content-Type: image/jpg');
   $canvas = imagecreatetruecolor(1920, 1080);
