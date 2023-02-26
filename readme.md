@@ -6,7 +6,7 @@ While I am using it with a Nest camera, it can be used with any jpg image availa
 
 Here is an example of the output from my camera using this repo:
 
-![Camera Example](https://lordcol.in/roof-camera/camera.jpg)
+![Camera Example](https://lordcol.in/roof-camera/camera-example.jpg)
 
 
 ## Background
